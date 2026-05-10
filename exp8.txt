@@ -1,0 +1,103 @@
+package ex8;
+import java.sql.*;  
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Scanner;  
+  
+public class Ex8 {  
+    public static void main(String[] args) {  
+        Scanner sc = new Scanner(System.in);  
+        String url = "jdbc:mysql://localhost:3306/Ex8";  
+        String usr = "root";  
+        String psw = "root123";   
+         
+        int rn = 0;  
+        String fn = "";  
+        String ln = "";  
+        char ctn = 'N';  
+        int ch = 0;  
+         
+        try {  
+            // Note: com.mysql.cj.jdbc.Driver is recommended for newer MySQL versions 
+            Class.forName("com.mysql.jdbc.Driver");  
+            Connection con = DriverManager.getConnection(url, usr, psw);  
+            PreparedStatement pstmt = null;  
+            ResultSet rs;  
+             
+            do {  
+                System.out.println("\nSelect CRUD Operation:");  
+                System.out.println(" 1. Create \n 2. Read \n 3. Update \n 4. Delete ");  
+                System.out.print("Enter your choice: ");  
+                ch = sc.nextInt();  
+                 
+                switch(ch) {  
+                    case 1:   
+                        System.out.print("Enter Roll No.: ");  
+                        rn = sc.nextInt();  
+                        System.out.print("Enter First Name: ");  
+                        fn = sc.next();  
+                        System.out.print("Enter Last Name: ");  
+                        ln = sc.next();  
+                         
+                        pstmt = con.prepareStatement("INSERT INTO classdata VALUES(?, ?, ?)");  
+                        pstmt.setInt(1, rn);  
+                        pstmt.setString(2, fn);  
+                        pstmt.setString(3, ln);  
+                        pstmt.executeUpdate();   
+                        System.out.println("Data Inserted Successfully");    
+                        break;  
+                         
+                    case 2:   
+                        pstmt = con.prepareStatement("SELECT * FROM classdata");  
+                        rs = pstmt.executeQuery();  
+                         
+                        System.out.println("Roll No. \t First Name \t Last Name");  
+                        while(rs.next()){  
+                            System.out.println(rs.getInt("RollNo") + " \t\t " + rs.getString("first_name") + " \t\t " + rs.getString("last_name"));  
+                        }  
+                        break;  
+                         
+                    case 3:  
+                        System.out.print("Enter first name of student whose roll no is to update: ");  
+                        fn = sc.next();  
+                        System.out.print("Enter correct roll no.: ");  
+                        rn = sc.nextInt();  
+                         
+                        pstmt = con.prepareStatement("UPDATE classdata SET RollNo = ? WHERE first_name = ?");  
+                        pstmt.setInt(1, rn);  
+                        pstmt.setString(2, fn);  
+                        pstmt.executeUpdate();  
+                        System.out.println("Data Updated Successfully");    
+                        break;  
+                         
+                    case 4:  
+                        System.out.print("Enter roll no of student to delete record: ");  
+                        rn = sc.nextInt();  
+                         
+                        // Properly parameterized the delete query 
+                        pstmt = con.prepareStatement("DELETE FROM classdata WHERE RollNo = ?");  
+                        pstmt.setInt(1, rn);  
+                        pstmt.executeUpdate();  
+                        System.out.println("Data Deleted Successfully");    
+                        break;  
+                         
+                    default:  
+                        System.out.println("Choice Not Matched...!");  
+                }  
+                 
+                System.out.print("Do you want to continue (Y/N): ");  
+                ctn = sc.next().charAt(0);  
+                 
+            } while(Character.toUpperCase(ctn) == 'Y');  
+             
+            con.close();  
+            sc.close(); 
+            System.out.println("Program Terminated...!");  
+             
+        } catch (SQLException | ClassNotFoundException e) {  
+            e.printStackTrace();  
+        } 
+    }
+}

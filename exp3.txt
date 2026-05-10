@@ -1,0 +1,80 @@
+package com.ajp;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Ex3 extends JFrame implements ActionListener {
+
+    JTextField t0, t1, t2, t3, t4, t5, t6;
+    JButton b;
+
+    public Ex3() {
+        setLayout(new FlowLayout());
+
+        add(new JLabel("Name"));
+        t0 = new JTextField(10);
+        add(t0);
+
+        add(new JLabel("Roll Number"));
+        t6 = new JTextField(10);
+        add(t6);
+
+        add(new JLabel("Marks 1"));
+        t1 = new JTextField(5);
+        add(t1);
+
+        add(new JLabel("Marks 2"));
+        t2 = new JTextField(5);
+        add(t2);
+
+        add(new JLabel("Marks 3"));
+        t3 = new JTextField(5);
+        add(t3);
+
+        add(new JLabel("Marks 4"));
+        t4 = new JTextField(5);
+        add(t4);
+
+        add(new JLabel("Marks 5"));
+        t5 = new JTextField(5);
+        add(t5);
+
+        b = new JButton("Submit");
+        add(b);
+        b.addActionListener(this);
+
+        setSize(300, 300);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        String name = t0.getText();      // ✅ String
+        String roll = t6.getText();      // ✅ String
+
+        try {
+            int m1 = Integer.parseInt(t1.getText());
+            int m2 = Integer.parseInt(t2.getText());
+            int m3 = Integer.parseInt(t3.getText());
+            int m4 = Integer.parseInt(t4.getText());
+            int m5 = Integer.parseInt(t5.getText());
+
+            int total = m1 + m2 + m3 + m4 + m5;
+            float per = total / 5.0f;
+
+            JOptionPane.showMessageDialog(this,
+                    "Name: " + name +
+                    "\nRoll: " + roll +
+                    "\nTotal = " + total +
+                    "\nPercentage = " + per + "%");
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Enter valid marks!");
+        }
+    }
+
+    public static void main(String[] args) {
+        new Ex3();
+    }
+}

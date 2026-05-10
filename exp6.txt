@@ -1,0 +1,22 @@
+package ex6;
+import java.net.*;
+
+public class Ex6 {
+    public static void main(String[] args) throws UnknownHostException {
+        
+        // 1. Get local machine details
+        InetAddress local = InetAddress.getLocalHost();
+        System.out.println("Local Host: " + local);
+
+        // 2. Get by hostname
+        InetAddress byName = InetAddress.getByName("localhost");
+        System.out.println("By Name: " + byName);
+
+        // 3. Get all IPs of google.com
+        System.out.println("\nAll IPs of www.google.com:");
+        InetAddress[] all = InetAddress.getAllByName("www.google.com");
+        for (InetAddress a : all) {
+            System.out.println(a);
+        }
+    }
+}

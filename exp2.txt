@@ -1,0 +1,54 @@
+package Abhijeet;
+import java.awt.*;
+import java.awt.event.*;
+public class exp2 extends Frame implements MouseListener {
+ private static final long serialVersionUID = 1L;
+ String str;
+ TextField tf;
+ exp2() {
+ setTitle("Mouse Action");
+ setSize(600, 300);
+ setLayout(new FlowLayout());
+
+ tf = new TextField("Mouse Event");
+ tf.setPreferredSize(new Dimension(200, 30));
+ add(tf);
+
+ addMouseListener(this);
+ setVisible(true);
+
+ addWindowListener(new WindowAdapter() {
+ public void windowClosing(WindowEvent e) {
+ dispose();
+ }
+ });
+ }
+ @Override
+ public void mouseClicked(MouseEvent e) {
+ str = "Mouse Clicked";
+ tf.setText(str);
+ }
+ @Override
+ public void mouseEntered(MouseEvent e) {
+ str = "Mouse Entered";
+ tf.setText(str);
+ }
+ @Override
+ public void mouseExited(MouseEvent e) {
+ str = "Mouse Exited";
+ tf.setText(str);
+ }
+ @Override
+ public void mousePressed(MouseEvent e) {
+ str = "Mouse Button Pressed";
+ tf.setText(str);
+ }
+ @Override
+ public void mouseReleased(MouseEvent e) {
+ str = "Mouse Button Released";
+ tf.setText(str);
+ }
+ public static void main(String[] args) {
+ new exp2();
+ }
+}
