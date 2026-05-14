@@ -50,8 +50,8 @@ public class Ex3 extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-        String name = t0.getText();      // ✅ String
-        String roll = t6.getText();      // ✅ String
+        String name = t0.getText();      
+        String roll = t6.getText();      
 
         try {
             int m1 = Integer.parseInt(t1.getText());
