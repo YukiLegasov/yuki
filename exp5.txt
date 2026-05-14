@@ -1,5 +1,5 @@
 1. ///MyClient.java
-package exp6;
+package exp5;
 import java.rmi.*;
 import java.util.Scanner;
 
