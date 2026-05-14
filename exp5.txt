@@ -61,3 +61,5 @@ public interface Pallin extends Remote {
     boolean check(String s) throws RemoteException;
 }
 
+// cd C:\Users\xyz\eclipse-workspace\exp5
+//java exp5.MyClient
