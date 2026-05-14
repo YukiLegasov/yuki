@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My First JSP Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .message-box {
+            background-color: #ffffff;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            padding: 40px 60px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4a90e2;
+            font-size: 32px;
+        }
+        p {
+            color: #555555;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message-box">
+        <h1>Welcome to JSP!</h1>
+        <p>This is a simple message displayed using a JSP page.</p>
+        <%
+            // Java code inside JSP scriptlet
+            String message = "Hello from the Server!";
+            out.println("<p><b>Server says: </b>" + message + "</p>");
+        %>
+    </div>
+
+</body>
+</html>
