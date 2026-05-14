@@ -1,0 +1,63 @@
+1. ///MyClient.java
+package exp6;
+import java.rmi.*;
+import java.util.Scanner;
+
+public class MyClient {
+    public static void main(String[] args) throws Exception {
+
+        
+       
+        Pallin obj = (Pallin) Naming.lookup("rmi://localhost:1099/PAL");
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter string: ");
+        String s = sc.nextLine();
+
+        if (obj.check(s))
+            System.out.println(s + " is a Palindrome");
+        else
+            System.out.println(s + " is NOT a Palindrome");
+    }
+}
+
+
+2.//MyServer.java
+package exp5;
+import java.rmi.*;
+import java.rmi.registry.*;
+
+public class MyServer {
+    public static void main(String[] args) throws Exception {
+        PallinRemote obj = new PallinRemote(); 
+        Registry r = LocateRegistry.createRegistry(1099);
+        r.rebind("PAL", obj);                   
+        System.out.println("Server Started");
+    }
+}
+
+
+3.//PallinRemote
+
+package saks;
+import java.rmi.*;
+import java.rmi.server.*;
+
+
+public class PallinRemote extends UnicastRemoteObject implements Pallin {
+
+    PallinRemote() throws RemoteException { super(); }
+    public boolean check(String s) throws RemoteException {
+        String rev = new StringBuilder(s).reverse().toString();
+        return s.equalsIgnoreCase(rev);
+    }
+}
+
+4.//Pallin
+
+package exp5;
+import java.rmi.*;
+public interface Pallin extends Remote {
+    boolean check(String s) throws RemoteException;
+}
+
