@@ -1,4 +1,4 @@
-package Abhijeet;
+package exp2;
 import java.awt.*;
 import java.awt.event.*;
 public class exp2 extends Frame implements MouseListener {
