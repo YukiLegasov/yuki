@@ -1,64 +1,172 @@
-exp7 A
+index.html file 
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login Form</title>
+<meta charset="UTF-8">
+<title>Login Page</title>
 </head>
 
 <body>
 
-<form action="DemoServlet" method="post">
+<form action="Login" method="post">
 
-    Username:
-    <input type="text" name="uname"><br><br>
+<h1>Login</h1>
 
-    Password:
-    <input type="password" name="pass"><br><br>
+<label>Username</label>
+<input type="text" name="username">
+<br><br>
+<label>Password</label>
+<input type="password" name="password">
 
-    <input type="submit" value="Submit">
+<br><br>
+
+<input type="submit" value="Login">
 
 </form>
 
 </body>
 </html>
 
-//B
+login.java file
+ 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class DemoServlet extends HttpServlet {
+@WebServlet("/Login")
 
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response)
-                       throws ServletException, IOException {
+public class Login extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    public Login() {
+
+        super();
+    }
+
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+            throws ServletException, IOException {
 
         response.setContentType("text/html");
 
-        PrintWriter out = response.getWriter();
+        String username =
+                request.getParameter("username");
 
-        String uname = request.getParameter("uname");
-        String pass = request.getParameter("pass");
+        String password =
+                request.getParameter("password");
 
-        out.println("<h2>Username : " + uname + "</h2>");
-        out.println("<h2>Password : " + pass + "</h2>");
+        System.out.println("Client : "
+                + username + " " + password);
+
+        response.getWriter().println(
+                "Client : " + username + " " + password);
+
+        UserDao ud = new UserDao();
+
+        ResultSet rs = ud.readUser(username);
+
+        try {
+
+            if(rs.next()) {
+
+                System.out.println(
+                        "Server : "
+                                + rs.getString(1)
+                                + " "
+                                + rs.getString(2));
+
+                response.getWriter().println(
+                        "<br>Server : "
+                                + rs.getString(1)
+                                + " "
+                                + rs.getString(2));
+
+            }
+
+            else {
+
+                response.getWriter().println(
+                        "<br>User Not Found");
+            }
+
+        }
+
+        catch (SQLException e) {
+
+            e.printStackTrace();
+        }
     }
 }
 
 
-//XML
-//WebContent → WEB-INF → web.xml
-<web-app>
+userDeo.java file
 
-    <servlet>
-        <servlet-name>DemoServlet</servlet-name>
-        <servlet-class>DemoServlet</servlet-class>
-    </servlet>
+import java.sql.*;
 
-    <servlet-mapping>
-        <servlet-name>DemoServlet</servlet-name>
-        <url-pattern>/DemoServlet</url-pattern>
-    </servlet-mapping>
+public class UserDao {
 
-</web-app>
+    public ResultSet readUser(String str) {
+
+        ResultSet rs = null;
+
+        try {
+
+            String driver =
+                    "com.mysql.cj.jdbc.Driver";
+
+            String url =
+                    "jdbc:mysql://localhost:3306/college";
+
+            String user = "root";
+
+            String pass = "root123";
+
+            String query =
+                    "SELECT * FROM logindata WHERE username=?";
+
+            Class.forName(driver);
+
+            Connection con =
+                    DriverManager.getConnection(
+                            url, user, pass);
+
+            PreparedStatement pstmt =
+                    con.prepareStatement(query);
+
+            pstmt.setString(1, str);
+
+            rs = pstmt.executeQuery();
+
+        }
+
+        catch(Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return rs;
+    }
+}
+
+
+Mysql code
+
+CREATE DATABASE college;
+
+USE college;
+
+CREATE TABLE logindata(
+   username VARCHAR(20),
+   password VARCHAR(20)
+);
+
+INSERT INTO logindata
+VALUES('admin','123');
