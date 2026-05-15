@@ -23,3 +23,16 @@ rs.getString(4));
 
 download jar file
 mysql-connector-j-8.1.0 
+
+
+
+#sql 
+create database Ex4;
+USE Ex4;
+CREATE TABLE student_contact(
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    phone VARCHAR(15),
+    email VARCHAR(50)
+);
+
